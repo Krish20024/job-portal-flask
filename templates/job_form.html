@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ 'Edit Job' if job else 'Post Job' }}</h1>
+<form method="post" class="card form">
+  <label>Title<input name="title" value="{{ job.title if job else '' }}" required></label>
+  <label>Company<input name="company" value="{{ job.company if job else '' }}" required></label>
+  <label>Location<input name="location" value="{{ job.location if job else '' }}"></label>
+  <div class="grid">
+      <label>Min Salary (Yearly)<input type="number" name="salary_min" value="{{ job.salary_min if job else '' }}"></label>
+      <label>Max Salary (Yearly)<input type="number" name="salary_max" value="{{ job.salary_max if job else '' }}"></label>
+  </div>
+  <label>Job Type
+    <select name="job_type">
+      {% set val = job.job_type if job else '' %}
+      <option value="">Other</option>
+      <option value="Full-time" {{ 'selected' if val=='Full-time' }}>Full-time</option>
+      <option value="Internship" {{ 'selected' if val=='Internship' }}>Internship</option>
+      <option value="Part-time" {{ 'selected' if val=='Part-time' }}>Part-time</option>
+    </select>
+  </label>
+  <label>Description<textarea name="description" rows="4">{{ job.description if job else '' }}</textarea></label>
+  <label>Requirements<textarea name="requirements" rows="4">{{ job.requirements if job else '' }}</textarea></label>
+  <label>Deadline<input type="date" name="deadline" value="{{ job.deadline }}"></label>
+  <button class="btn primary">{{ 'Save' if job else 'Create' }}</button>
+</form>
+{% endblock %}

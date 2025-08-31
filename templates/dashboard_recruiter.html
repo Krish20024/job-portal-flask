@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">My Jobs</h1>
+  <a class="btn btn-primary" href="{{ url_for('job_new') }}">Post New Job</a>
+</div>
+<p class="lead">Total Applications Received: <span class="badge text-bg-info">{{ total_apps }}</span></p>
+
+{% if jobs %}
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Title</th>
+          <th>Posted</th>
+          <th>Applicants</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for j in jobs %}
+        <tr>
+          <td><a href="{{ url_for('job_detail', job_id=j.id) }}">{{ j.title }}</a></td>
+          <td>{{ j.created_at.strftime("%Y-%m-%d") }}</td>
+          <td><span class="badge rounded-pill text-bg-primary">{{ j.applications|length }}</span></td>
+          <td>
+            <a href="{{ url_for('applicants', job_id=j.id) }}" class="btn btn-sm btn-dark">View Applicants</a>
+            <a href="{{ url_for('job_edit', job_id=j.id) }}" class="btn btn-sm btn-secondary">Edit</a>
+            <form style="display:inline" method="post" action="{{ url_for('job_delete', job_id=j.id) }}">
+              <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this job?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="text-center p-5 border rounded">
+    <p class="h4">You haven't posted any jobs yet.</p>
+    <a href="{{ url_for('job_new') }}" class="btn btn-primary mt-3">Post Your First Job</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ job.title }}</h1>
+<p class="muted">{{ job.company }} — {{ job.location or 'Remote' }}</p>
+<p><strong>Type:</strong> {{ job.job_type or 'Other' }}</p>
+{% if job.salary_min and job.salary_max %}
+<p><strong>Salary:</strong> ₹{{ "{:,.0f}".format(job.salary_min) }} - ₹{{ "{:,.0f}".format(job.salary_max) }} per year</p>
+{% endif %}
+{% if job.deadline %}<p><strong>Deadline:</strong> {{ job.deadline }}</p>{% endif %}
+<h3>Description</h3><p>{{ job.description or '—' }}</p>
+<h3>Requirements</h3><p>{{ job.requirements or '—' }}</p>
+
+{% if session.get('role') == 'student' %}
+  {% if already %}
+    <p class="badge">You have applied for this job.</p>
+  {% else %}
+    <form method="post" action="{{ url_for('apply', job_id=job.id) }}" class="card form">
+      <label>Cover Note (optional)<textarea name="cover_note" rows="4"></textarea></label>
+      <button class="btn primary">Apply Now</button>
+    </form>
+  {% endif %}
+{% elif session.get('role') == 'recruiter' and job.posted_by == session.get('user_id') %}
+  <a class="btn" href="{{ url_for('applicants', job_id=job.id) }}">View Applicants</a>
+{% endif %}
+
+{% if co_joiners %}
+<div class="card">
+    <h3>Other Accepted Applicants</h3>
+    <p>Congratulations! Here are the other applicants who have been accepted for this role:</p>
+    <ul>
+        {% for app in co_joiners %}
+        <li>{{ app.student.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock %}

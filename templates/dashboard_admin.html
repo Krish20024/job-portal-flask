@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Admin Panel</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header"><h5 class="mb-0">Pending Recruiter Approvals</h5></div>
+    <div class="card-body">
+        {% if pending %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead><tr><th>Name</th><th>Email</th><th>Registered</th><th>Actions</th></tr></thead>
+              <tbody>
+                {% for r in pending %}
+                <tr>
+                  <td>{{ r.name }}</td><td>{{ r.email }}</td><td>{{ r.created_at.strftime("%Y-%m-%d") }}</td>
+                  <td>
+                    <form method="post" action="{{ url_for('approve_recruiter', user_id=r.id) }}">
+                      <button class="btn btn-sm btn-success">Approve</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        {% else %}<p class="text-muted mb-0">No pending approvals.</p>{% endif %}
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header"><h5 class="mb-0">All Approved Recruiters</h5></div>
+    <div class="card-body">
+        {% if recruiters %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead><tr><th>Name</th><th>Email</th><th>Company (First Job)</th><th>Actions</th></tr></thead>
+              <tbody>
+                {% for r in recruiters %}
+                <tr>
+                  <td>{{ r.name }}</td><td>{{ r.email }}</td><td>{{ r.jobs[0].company if r.jobs|length > 0 else 'N/A' }}</td>
+                  <td>
+                    <form method="post" action="{{ url_for('delete_recruiter', user_id=r.id) }}">
+                      <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this recruiter and all their jobs?')">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        {% else %}<p class="text-muted mb-0">No approved recruiters found.</p>{% endif %}
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header"><h5 class="mb-0">All Applications</h5></div>
+    <div class="card-body">
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead><tr><th>Job Title</th><th>Applicant</th><th>Status</th><th>Applied</th><th>Actions</th></tr></thead>
+              <tbody>
+                {% for a in applications %}
+                <tr>
+                  <td>{{ a.job.title }}</td><td>{{ a.student.name }}</td><td><span class="badge text-bg-secondary">{{ a.status|capitalize }}</span></td><td>{{ a.applied_at.strftime("%Y-%m-%d") }}</td>
+                  <td>
+                    <form method="post" action="{{ url_for('delete_application', app_id=a.id) }}">
+                      <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this application?')">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        {% else %}<p class="text-muted mb-0">No applications found.</p>{% endif %}
+    </div>
+</div>
+{% endblock %}

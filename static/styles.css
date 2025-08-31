@@ -1,0 +1,81 @@
+:root { --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --pri:#22c55e; --danger:#ef4444; }
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Roboto;background:var(--bg);color:var(--text)}
+a{color:#60a5fa;text-decoration:none} a:hover{text-decoration:underline}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:#0b1022;border-bottom:1px solid #1f2937}
+.brand a{font-weight:700;color:#fff} .links a{margin-left:12px}
+.btn{background:#1f2937;color:#e5e7eb;padding:8px 12px;border-radius:10px;border:0;cursor:pointer}
+.btn.primary{background:var(--pri);color:#04210e} .btn.small{padding:6px 10px;font-size:.9rem}
+.link{background:none;color:#60a5fa} .link.danger{color:var(--danger)}
+.container{max-width:980px;margin:20px auto;padding:0 16px}
+.card{background:var(--card);padding:16px;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.25);margin:10px 0}
+.form label{display:block;margin:10px 0} input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #374151;background:#0f172a;color:#e5e7eb}
+.table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden}
+.table th,.table td{padding:12px;border-bottom:1px solid #1f2937;text-align:left}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.muted{color:var(--muted)} .badge{background:#374151;color:#e5e7eb;border-radius:999px;padding:4px 10px;font-size:.85rem}
+.flash{position:relative;margin:12px 0} .alert{padding:10px;border-radius:10px;margin:8px 0}
+.alert.success{background:#052e1a;color:#86efac} .alert.warning{background:#2a1f05;color:#fde68a}
+.alert.danger{background:#2b0b0b;color:#fecaca} .alert.info{background:#0b2430;color:#bae6fd}
+.flex.between{display:flex;justify-content:space-between;align-items:center}
+.filters{display:flex;gap:10px;margin:10px 0} .footer{color:#64748b;text-align:center;padding:18px}
+.badge.status-applied { background-color: #374151; color: #e5e7eb; }
+.badge.status-accepted { background-color: var(--pri); color: #04210e; font-weight: bold; }
+.badge.status-rejected { background-color: var(--danger); color: #fff; }
+.badge.status-reviewed { background-color: #ca8a04; color: #fff; } /* For future use */
+/* === NEW COLORFUL HEADER STYLES === */
+
+/* Main Navbar Style */
+.navbar {
+    /* Vibrant purple-to-blue gradient background */
+    background: linear-gradient(90deg, rgb(66, 64, 110) 0%, rgba(139,92,246,1) 100%);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    /* A subtle shadow to make the header pop */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: none; /* Remove the default border */
+}
+
+/* Brand/Logo Styling */
+.navbar-brand strong {
+    font-size: 1.5rem; /* Larger font size */
+    color: #ffffff;
+}
+
+/* Navigation Link Styling */
+.nav-link {
+    color: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
+    font-weight: 500;
+    margin: 0 0.5rem;
+    transition: all 0.2s ease-in-out; /* Smooth transition for hover */
+}
+
+/* Link Hover Effect */
+.nav-link:hover {
+    color: #ffffff; /* Becomes fully white on hover */
+    transform: translateY(-2px); /* Lifts the link slightly */
+}
+
+/* Styling for the right-aligned text like "Hello, Name" */
+.navbar .navbar-nav .nav-link {
+    font-size: 0.95rem;
+}
+
+/* Custom Button Styling */
+.navbar .btn {
+    border-radius: 20px; /* Rounded corners */
+    padding: 0.4rem 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Logout Button (Outline Style) */
+.navbar .btn-outline-secondary {
+    border-color: rgba(255, 255, 255, 0.7);
+    color: #ffffff;
+}
+
+/* Logout Button Hover Effect */
+.navbar .btn-outline-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: #ffffff;
+}
