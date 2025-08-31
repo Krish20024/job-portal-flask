@@ -3,11 +3,8 @@
 <div class="row">
   <div class="col-md-8 mx-auto">
     <h1 class="mb-4">My Profile</h1>
-
     <div class="card shadow-sm mb-4">
-      <div class="card-header">
-        <h5 class="mb-0">Account Details</h5>
-      </div>
+      <div class="card-header"><h5 class="mb-0">Account Details</h5></div>
       <div class="card-body">
         <form method="post">
           <div class="mb-3">
@@ -22,12 +19,9 @@
         </form>
       </div>
     </div>
-
     {% if user.role == 'student' %}
     <div class="card shadow-sm">
-      <div class="card-header">
-        <h5 class="mb-0">My Resume</h5>
-      </div>
+      <div class="card-header"><h5 class="mb-0">My Resume</h5></div>
       <div class="card-body">
         {% if user.resume_path %}
           <div class="d-flex justify-content-between align-items-center mb-3">
@@ -40,7 +34,6 @@
         {% else %}
           <p class="text-muted">You have not uploaded a resume yet.</p>
         {% endif %}
-        
         <form method="post" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="resume" class="form-label">{{ 'Upload New PDF' if user.resume_path else 'Upload PDF' }}</label>
@@ -51,7 +44,6 @@
       </div>
     </div>
     {% endif %}
-
   </div>
 </div>
 {% endblock %}

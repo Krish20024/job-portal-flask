@@ -1,32 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Applicants for: {{ job.title }}</h2>
-<p><a class="btn small" href="{{ url_for('job_detail', job_id=job.id) }}">Back to Job</a></p>
+<p><a class="btn btn-sm btn-secondary" href="{{ url_for('job_detail', job_id=job.id) }}">Back to Job</a></p>
 {% if applications %}
-<table class="table">
-  <tr><th>Student</th><th>Applied</th><th>Status</th><th>Resume</th><th>Actions</th></tr>
-  {% for a in applications %}
-  <tr>
-    <td>{{ a.student.name }} ({{ a.student.email }})</td>
-    <td>{{ a.applied_at.strftime("%Y-%m-%d") }}</td>
-    <td><span class="badge status-{{a.status}}">{{ a.status }}</span></td>
-    <td>
-      {% if a.student.resume_path %}<a href="{{ url_for('uploaded_file', filename=a.student.resume_path) }}">Download</a>{% else %}No resume{% endif %}
-    </td>
-    <td>
-      {% if a.status == 'applied' %}
-        <form style="display:inline" method="post" action="{{ url_for('update_application_status', app_id=a.id) }}">
-          <input type="hidden" name="status" value="accepted"><button class="btn small primary">Accept</button>
-        </form>
-      {% endif %}
-      {% if a.status == 'applied' or a.status == 'accepted' %}
-        <form style="display:inline" method="post" action="{{ url_for('update_application_status', app_id=a.id) }}">
-          <input type="hidden" name="status" value="rejected"><button class="btn small">Deny</button>
-        </form>
-      {% endif %}
-    </td>
-  </tr>
-  {% endfor %}
-</table>
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+                <tr><th>Student</th><th>Applied</th><th>Status</th><th>Resume</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              {% for a in applications %}
+              <tr>
+                <td>{{ a.student.name }} ({{ a.student.email }})</td>
+                <td>{{ a.applied_at.strftime("%Y-%m-%d") }}</td>
+                <td>
+                    {% set status_color = 'secondary' %}
+                    {% if a.status == 'accepted' %}{% set status_color = 'success' %}{% endif %}
+                    {% if a.status == 'rejected' %}{% set status_color = 'danger' %}{% endif %}
+                    <span class="badge text-bg-{{ status_color }}">{{ a.status|capitalize }}</span>
+                </td>
+                <td>
+                  {% if a.student.resume_path %}<a href="{{ url_for('uploaded_file', filename=a.student.resume_path) }}">Download</a>{% else %}No resume{% endif %}
+                </td>
+                <td>
+                  {% if a.status == 'applied' %}
+                    <form style="display:inline" method="post" action="{{ url_for('update_application_status', app_id=a.id) }}">
+                      <input type="hidden" name="status" value="accepted"><button class="btn btn-sm btn-success">Accept</button>
+                    </form>
+                  {% endif %}
+                  {% if a.status == 'applied' or a.status == 'accepted' %}
+                    <form style="display:inline" method="post" action="{{ url_for('update_application_status', app_id=a.id) }}">
+                      <input type="hidden" name="status" value="rejected"><button class="btn btn-sm btn-outline-danger">Deny</button>
+                    </form>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% else %}<p>No applicants yet.</p>{% endif %}
 {% endblock %}

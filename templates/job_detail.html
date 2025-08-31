@@ -1,38 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ job.title }}</h1>
-<p class="muted">{{ job.company }} — {{ job.location or 'Remote' }}</p>
-<p><strong>Type:</strong> {{ job.job_type or 'Other' }}</p>
-{% if job.salary_min and job.salary_max %}
-<p><strong>Salary:</strong> ₹{{ "{:,.0f}".format(job.salary_min) }} - ₹{{ "{:,.0f}".format(job.salary_max) }} per year</p>
-{% endif %}
-{% if job.deadline %}<p><strong>Deadline:</strong> {{ job.deadline }}</p>{% endif %}
-<h3>Description</h3><p>{{ job.description or '—' }}</p>
-<h3>Requirements</h3><p>{{ job.requirements or '—' }}</p>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h1 class="card-title">{{ job.title }}</h1>
+        <h5 class="card-subtitle mb-3 text-muted">{{ job.company }} — {{ job.location or 'Remote' }}</h5>
+        <p><strong>Type:</strong> <span class="badge text-bg-info">{{ job.job_type or 'Other' }}</span></p>
+        {% if job.salary_min and job.salary_max %}
+        <p><strong>Salary:</strong> ₹{{ "{:,.0f}".format(job.salary_min) }} - ₹{{ "{:,.0f}".format(job.salary_max) }} per year</p>
+        {% endif %}
+        {% if job.deadline %}<p><strong>Deadline:</strong> {{ job.deadline }}</p>{% endif %}
+        <hr>
+        <h3>Description</h3>
+        <p>{{ job.description or '—' }}</p>
+        <h3>Requirements</h3>
+        <p>{{ job.requirements or '—' }}</p>
 
-{% if session.get('role') == 'student' %}
-  {% if already %}
-    <p class="badge">You have applied for this job.</p>
-  {% else %}
-    <form method="post" action="{{ url_for('apply', job_id=job.id) }}" class="card form">
-      <label>Cover Note (optional)<textarea name="cover_note" rows="4"></textarea></label>
-      <button class="btn primary">Apply Now</button>
-    </form>
-  {% endif %}
-{% elif session.get('role') == 'recruiter' and job.posted_by == session.get('user_id') %}
-  <a class="btn" href="{{ url_for('applicants', job_id=job.id) }}">View Applicants</a>
-{% endif %}
+        {% if session.get('role') == 'student' %}
+            <hr>
+            <div class="mt-4">
+            {% if already %}
+                <div class="alert alert-success" role="alert">
+                    You have already applied for this job.
+                </div>
+            {% else %}
+                <h4>Apply Now</h4>
+                <form method="post" action="{{ url_for('apply', job_id=job.id) }}">
+                    <div class="mb-3">
+                        <label for="cover_note" class="form-label">Cover Note (Optional)</label>
+                        <textarea name="cover_note" id="cover_note" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Submit Application</button>
+                </form>
+            {% endif %}
+            </div>
+        {% elif session.get('role') == 'recruiter' and job.posted_by == session.get('user_id') %}
+            <a class="btn btn-dark mt-3" href="{{ url_for('applicants', job_id=job.id) }}">View Applicants</a>
+        {% endif %}
+    </div>
+</div>
 
 {% if co_joiners %}
-<div class="card">
-    <h3>Other Accepted Applicants</h3>
-    <p>Congratulations! Here are the other applicants who have been accepted for this role:</p>
-    <ul>
-        {% for app in co_joiners %}
-        <li>{{ app.student.name }}</li>
-        {% endfor %}
-    </ul>
+<div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <h3 class="card-title">Other Accepted Applicants</h3>
+        <p>Congratulations! Here are the other applicants who have been accepted for this role:</p>
+        <ul>
+            {% for app in co_joiners %}
+            <li>{{ app.student.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endif %}
-
 {% endblock %}

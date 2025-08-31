@@ -4,13 +4,13 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from flask_wtf.csrf import CSRFProtect
+
 
 # --- App & DB ---
 app = Flask(__name__)
 app.config.from_object("config.Config")
 db = SQLAlchemy(app)
-csrf = CSRFProtect(app)
+
 
 # --- Models ---
 class User(db.Model):

@@ -1,26 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ 'Edit Job' if job else 'Post Job' }}</h1>
-<form method="post" class="card form">
-  <label>Title<input name="title" value="{{ job.title if job else '' }}" required></label>
-  <label>Company<input name="company" value="{{ job.company if job else '' }}" required></label>
-  <label>Location<input name="location" value="{{ job.location if job else '' }}"></label>
-  <div class="grid">
-      <label>Min Salary (Yearly)<input type="number" name="salary_min" value="{{ job.salary_min if job else '' }}"></label>
-      <label>Max Salary (Yearly)<input type="number" name="salary_max" value="{{ job.salary_max if job else '' }}"></label>
-  </div>
-  <label>Job Type
-    <select name="job_type">
-      {% set val = job.job_type if job else '' %}
-      <option value="">Other</option>
-      <option value="Full-time" {{ 'selected' if val=='Full-time' }}>Full-time</option>
-      <option value="Internship" {{ 'selected' if val=='Internship' }}>Internship</option>
-      <option value="Part-time" {{ 'selected' if val=='Part-time' }}>Part-time</option>
-    </select>
-  </label>
-  <label>Description<textarea name="description" rows="4">{{ job.description if job else '' }}</textarea></label>
-  <label>Requirements<textarea name="requirements" rows="4">{{ job.requirements if job else '' }}</textarea></label>
-  <label>Deadline<input type="date" name="deadline" value="{{ job.deadline }}"></label>
-  <button class="btn primary">{{ 'Save' if job else 'Create' }}</button>
-</form>
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h1 class="mb-4">{{ 'Edit Job' if job else 'Post New Job' }}</h1>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Job Title</label>
+                        <input name="title" id="title" class="form-control" value="{{ job.title if job else '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="company" class="form-label">Company Name</label>
+                        <input name="company" id="company" class="form-control" value="{{ job.company if job else '' }}" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input name="location" id="location" class="form-control" value="{{ job.location if job else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="job_type" class="form-label">Job Type</label>
+                            <select name="job_type" id="job_type" class="form-select">
+                                {% set val = job.job_type if job else '' %}
+                                <option value="">Other</option>
+                                <option value="Full-time" {{ 'selected' if val=='Full-time' }}>Full-time</option>
+                                <option value="Internship" {{ 'selected' if val=='Internship' }}>Internship</option>
+                                <option value="Part-time" {{ 'selected' if val=='Part-time' }}>Part-time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="salary_min" class="form-label">Min Salary (Yearly)</label>
+                            <input type="number" name="salary_min" id="salary_min" class="form-control" value="{{ job.salary_min if job else '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="salary_max" class="form-label">Max Salary (Yearly)</label>
+                            <input type="number" name="salary_max" id="salary_max" class="form-control" value="{{ job.salary_max if job else '' }}">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="4">{{ job.description if job else '' }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="requirements" class="form-label">Requirements</label>
+                        <textarea name="requirements" id="requirements" class="form-control" rows="4">{{ job.requirements if job else '' }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadline" class="form-label">Application Deadline</label>
+                        <input type="date" name="deadline" id="deadline" class="form-control" value="{{ job.deadline }}">
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg">{{ 'Save Changes' if job else 'Create Job' }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
